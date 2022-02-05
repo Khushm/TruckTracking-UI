@@ -42,18 +42,3 @@
   height: auto;
   width: auto;
 }
-
-.container {
-  width: 1000px;
-  border: solid 1px #000;
-  /* display: flex; */
-  justify-content: space-between;
-}
-
-.imageContainer > img:hover {
-  width: 500px;
-  height: 200px;
-}
-.site-page-header {
-  border: 1px solid rgb(235, 237, 240);
-}

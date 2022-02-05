@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Tooltip, Image } from "antd";
-import { Backdrop } from "@material-ui/core";
+import "../App.css";
 
 // import { MDCCircularProgress } from '@material/circular-progress';
 export default function ImageComponent({ objs, url }) {
@@ -114,14 +114,12 @@ export default function ImageComponent({ objs, url }) {
   return (
     <div>
       <img
-        hidden={backdropOpen}
-        onClick={() => setBackdropOpen(true)}
         onLoad={() => {
           stateLoad(true);
         }}
         ref={imageRef}
         className="px-2"
-        width={700}
+        width={350}
         src={url}
       />
       {/* <Backdrop open={backdropOpen}>
