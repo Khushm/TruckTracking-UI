@@ -14,7 +14,7 @@ import {
   Typography,
   PageHeader,
 } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, CloseSquareFilled, CheckSquareFilled } from "@ant-design/icons";
 import moment from "moment";
 
 import ImageComponent from "./Component/ImageComp";
@@ -42,7 +42,7 @@ function App() {
         for(let i=0; i<camera.length; i++){
       axios({
         method: "POST",
-        url: `http://localhost:5001/trucktrack_api/get_data/`,
+        url: `http://192.168.1.171:5001/trucktrack_api/get_data/`,
         data: {
           from_time: startDate + "T00:00:00",
           to_time: startDate + "T23:59:59",
@@ -153,13 +153,15 @@ function App() {
                   </Image.PreviewGroup>
                 }
               >
-                <CheckOutlined style={{ color: "green", size: '100px' }} />
+                <CheckSquareFilled style={{ color: "green", fontSize: '18px' }} />
+                {/* <CheckOutlined /> */}
               </Popover>
             ),
           };
         } else {
           return {
-            children: <CloseOutlined style={{ color: "red", size: '100px' }} />,
+            children: <CloseSquareFilled style={{ color: "red", fontSize: '18px' }}/> 
+            // <CloseOutlined  />,
           };
         }
       },
