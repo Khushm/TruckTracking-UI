@@ -1,10 +1,12 @@
 // import "./App.css";
 // import "antd/dist/antd.css";
-import { Layout, Select, Button, message } from "antd";
-
+import { Layout, Select, Button, message, notification } from "antd";
+import { Alert } from 'antd';
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./App.css";
+
+
 import {
   DatePicker,
   Table,
@@ -14,7 +16,7 @@ import {
   Typography,
   PageHeader,
 } from "antd";
-import { CheckOutlined, CloseOutlined, CloseSquareFilled, CheckSquareFilled } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, CloseSquareFilled, CheckSquareFilled, SmileOutlined } from "@ant-design/icons";
 import moment from "moment";
 
 import ImageComponent from "./Component/ImageComp";
@@ -29,16 +31,47 @@ function App() {
   const [startDate, setStartDate] = useState();
   const[panel, setPanel] = useState();
   const[camera, setCamera] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [notvisible, notsetVisible] = useState(false);
 
   // useEffect(() => {
+    const handleClose = () => {
+      setVisible(true);
+    };
+
+    const nothandleClose = () => {
+      notsetVisible(true);
+    };    
+    const openNotificationWithIcon = () => {
+      notification.open({
+        message: 'Error',
+        description:
+          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+        icon: <SmileOutlined style={{ color: 'red' }} />,
+        duration: 0.9,
+      });
+    };
+
+    const notopenNotificationWithIcon = () => {
+      notification.open({
+        message: 'Success',
+        description:
+          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+        icon: <SmileOutlined style={{ color: 'green' }} />,
+        duration: 0.9,
+      });
+    };
 
     const onSubmit=()=>
     {
       if(startDate === undefined || panel === undefined || camera === undefined){
-        message.error("Fill all fields");
+        // message.error("Fill all fields");
+        // setVisible(true);
+        openNotificationWithIcon('error')
       }
       else{
-      
+        notopenNotificationWithIcon('success')
+        // notsetVisible(true);
         for(let i=0; i<camera.length; i++){
       axios({
         method: "POST",
@@ -106,11 +139,16 @@ function App() {
     title: "TRUCK: ",
     dataIndex: "data",
     key: "key",
-    width: 300,
+    width: 420,
     // fixed: "left",
     render: (record) => {
       const img1 = record[0].get_presignedUrl;
-      return <Image src={img1}></Image>;
+      const bbox = record[0].truck_list
+      return <ImageComponent
+      url={img1}
+      objs={bbox}
+    />
+    // <Image src={img1}></Image>;
     },
   });
   const imgref = useRef(null);
@@ -187,6 +225,15 @@ function App() {
         title="Truck Tracking"
         // subTitle="This is a subtitle"
       />
+      
+      <div style={{width:"100%", paddingLeft:"30%", paddingRight:"30%", paddingBottom:"1%"}}>
+      {visible ? (
+        <Alert message="Error" type="error" afterClose={handleClose} showIcon closable style={{ color: "red", fontSize: '18px' }}/>
+      ) : null}
+      {notvisible ? (
+        <Alert message="Success" type="success" closable afterClose={nothandleClose} style={{ color: "green", fontSize: '18px' }} banner/>
+      ) : null}
+    </div>
       <Space direction="horizontal">
         <Text strong>Select Date</Text>
         <DatePicker
