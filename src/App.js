@@ -168,7 +168,7 @@ function App() {
         const val = record.filter(
           (item) => moment(item["datetime_utc"]["$date"]).hour() == i
         );
-
+        
         if (val.length != 0) {
           return {
             children: (
